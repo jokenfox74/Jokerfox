@@ -1,1 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Indsmart Auto Register</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glass-container">
+        <div class="header">
+            <span class="icon">📱🤖</span>
+            <h1>Indsmart Auto</h1>
+            <p>Intelligent registration automation with Telegram alerts</p>
+        </div>
 
+        <div class="card">
+            <div class="input-group">
+                <label>📞 Mobile Numbers</label>
+                <textarea id="numbers" rows="5" placeholder="Enter numbers (one per line or comma separated)&#10;9876543210&#10;9876543211,9876543212"></textarea>
+                <small>Supports multiple lines and comma separation</small>
+            </div>
+
+            <div class="button-group">
+                <button id="startBtn" class="btn btn-primary">✨ Start Automation</button>
+                <button id="stopBtn" class="btn btn-secondary">⏹ Stop</button>
+            </div>
+
+            <div class="status-card">
+                <div class="status-header">
+                    <span>📊 Status</span>
+                    <span id="statusBadge" class="badge idle">Idle</span>
+                </div>
+                <div class="progress-info" id="progressInfo">— / —</div>
+            </div>
+
+            <div class="log-section">
+                <div class="log-header">
+                    <span>📝 Live Log</span>
+                    <button id="clearLogBtn" class="clear-btn">Clear</button>
+                </div>
+                <div id="logArea" class="log-area">
+                    <div class="log-entry system">✨ Ready to start. Enter numbers and click Start.</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <span>⚡ Backend required • Deploy on Railway</span>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
